@@ -18,25 +18,37 @@
                                     <tr>
                                         <th>Nome</th>
                                         <th>E-Mail</th>
-                                        <th>Ações</th>
+                                        <th>Cidade</th>
+                                        <th>UF</th>
+                                        <th> 
+                                            Editar<i class="fa fa-edit"></i>
+                                        </th>
+                                        <th>
+                                            Ecluir<i class="fa fa-remove"></i>   
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($users as $user)
                                         <tr>
                                             <td>{!! $user->name !!}</td>
-                                            <td>{!! $user->email !!}</td>                                            
+                                            <td>{!! $user->email !!}</td>        
+                                            <td>{!! $user->cidade !!}</td>        
+                                            <td>{!! $user->uf !!}</td>                                            
                                             <td>  
                                             <a  href="{{route('user.edit', $user->id)}}"rel="tooltip"  type="button" class="btn btn-primary" data-original-title="Editar">
                                                 <i class="fa fa-edit">
                                                 </i>
                                                 Editar
                                             </a>
+                                            </td>
+                                            <td>
                                             <a href="{{route('user.destroy', $user->id)}}" rel="tooltip" type="button"   class="btn btn-danger" data-original-title="Eliminar">
                                                 <i class="fa fa-remove">
                                                 </i>   
                                                 Excluir                           
-                                            </a>   
+                                            </a>  
+                                            </td> 
                                         </td>
                                         </tr>
                                     @endforeach
@@ -45,7 +57,14 @@
                                     <tr>
                                         <th>Nome</th>
                                         <th>E-Mail</th>
-                                        <th>Ações</th>
+                                        <th>Cidade</th>
+                                        <th>UF</th>
+                                        <th> 
+                                            Editar<i class="fa fa-edit"></i>
+                                        </th>
+                                        <th>
+                                            Ecluir<i class="fa fa-remove"></i>   
+                                        </th>
                                     </tr>
                                 </tfoot>
                             </table><!-- /.table -->

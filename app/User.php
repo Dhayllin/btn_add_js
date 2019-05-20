@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Contact;
 
 class User extends Authenticatable
 {
@@ -28,12 +28,44 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+
+    public function addUser($request){
+
+        $contact = new Contact();
+                           
+        $contact['cidade'] = $request['cidade'];
+        $contact['rua'] = $request['rua'];
+        $contact['uf'] = $request['uf'];
+        $contact->save();
+
+        $dataForm = new User();
+
+        $dataForm['name'] = $request['name'];
+        $dataForm['email'] = $request['email'];
+        $dataForm['contact_id'] = $contact['id'];
+        $dataForm['password']= bcrypt($request['password']);
+        $dataForm->save();
+
+        return $dataForm;
+    }
+
+    public function updateUser($request, $id){
+
+        $contact = Contact::findOrFail($id);
+                           
+        $contact['cidade'] = $request['cidade'];
+        $contact['rua'] = $request['rua'];
+        $contact['uf'] = $request['uf'];
+        $contact->update();
+
+        $dataForm = User::findOrFail($id);
+
+        $dataForm['name'] = $request['name'];
+        $dataForm['email'] = $request['email'];
+        $dataForm['contact_id'] = $contact['id'];
+        $dataForm['password']= bcrypt($request['password']);
+        $dataForm->update();
+
+        return $dataForm;
+    }
 }

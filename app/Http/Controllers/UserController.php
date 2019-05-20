@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 use App\User;
 use Illuminate\Support\Facades\Redirect;
 
@@ -21,24 +22,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->user->all();
+        $users = DB::table('users')->select('users.id','users.name','users.email','contacts.cidade','contacts.uf')
+                                    ->leftjoin('contacts','users.contact_id','contacts.id')
+                                    ->get();
         return view('users.index',compact('users'));
     } 
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -61,13 +49,13 @@ class UserController extends Controller
     public function store(Request $request)
     {
         # RECUPERA TODOS OS DADOS QUE VEM DO FORMULÁRIO
-        $dataForm = $request->all();
+        $dataForm = $this->user->addUser($request->all());
 
 
         \Session::flash('mensagem_sucesso','Usuário adicionado com sucesso!');    
 
         # VERIFICA SE REALMENTE CADASTROU
-        if ($this->user->create($dataForm))
+        if ($dataForm)
             return redirect()
                     ->route('user.index');
         else
@@ -95,7 +83,13 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = $this->user->findOrfail($id);
+        $user = DB::table('users')->select('users.id','users.name','users.email','contacts.cidade','contacts.uf','rua')
+                                    ->where('users.id',$id)
+                                    ->leftjoin('contacts','users.contact_id','contacts.id')   
+                                    ->get()                               
+                                    ->first();
+                                  
+
         return view('users.create',compact('user'));
     }
 
@@ -108,9 +102,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = $this->user->findOrFail($id);
-
-        $update =  $user->update($request->all());
+        $update = $this->user->updateUser($request,$id);
 
         \Session::flash('mensagem_sucesso','Usuário atualizado com sucesso!');    
         
