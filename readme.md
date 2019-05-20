@@ -40,24 +40,4 @@ DB_PASSWORD=****
 Em seguida você deve configurar o arquivo .env e rodar as migrations com:
 <code> php artisan migrate --seed </code>
  
- <strong>Habilitando envio de e-mails</strong>
-
-Gmail
-
-Caso o host do e-mail seja o GMAIL, alterar as configurações do seu .env para
-<code>
-
-MAIL_DRIVER= smtp <br>
-MAIL_HOST= smtp.gmail.com <br>
-MAIL_PORT=587 <br>
-MAIL_USERNAME= minhaconta@gmail.com <br>
-MAIL_PASSWORD= senhaminhaconta <br>
-MAIL_ENCRYPTION= tls
-
-</code>
-
-É necessário também habilitar a opção na sua conta de e-mail para "Permitir aplicativos menos seguros" neste link <a href="https://myaccount.google.com/lesssecureapps?pli=1">Google</a>
-
-Recomendo que use o <strong>Mailtrap</strong> para testar o envio de emails.
-
 Recomendo <code> php artisan migrate:fresh --seed </code> para recriar o banco após atualizações. FRESH deleta o banco e cria novamente.
