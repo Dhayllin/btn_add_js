@@ -18,6 +18,7 @@ class ContactsTableSeeder extends Seeder
                 'cidade'        =>'Cuiabá',
                 'rua'           =>'Mandala',
                 'uf'            =>'MT',
+                'user_id'       => 1,
                 'created_at'    => $now,
                 'updated_at'    => $now,
             ],
@@ -25,7 +26,8 @@ class ContactsTableSeeder extends Seeder
                 'id'            =>2,
                 'cidade'        =>'Uberlândia',
                 'rua'           =>'da paz',
-                'uf'        =>'MG',
+                'uf'            =>'MG',
+                'user_id'       =>2,
                 'created_at'    => $now,
                 'updated_at'    => $now,
             ]

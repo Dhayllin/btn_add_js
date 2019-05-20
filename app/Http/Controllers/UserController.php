@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 use DB;
 use App\User;
 use Illuminate\Support\Facades\Redirect;
+use App\Contact;
 
 class UserController extends Controller
 {
-    public function __construct(User $user )
+    public function __construct(User $user, Contact $contact )
     {
         $this->middleware('auth');
         $this->user = $user;
+        $this->contact = $contact;
     }
 
     /**
@@ -22,8 +24,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = DB::table('users')->select('users.id','users.name','users.email','contacts.cidade','contacts.uf')
-                                    ->leftjoin('contacts','users.contact_id','contacts.id')
+        $users = DB::table('contacts')->select('users.id','contacts.user_id as user_id','users.name','users.email','contacts.cidade','contacts.uf')
+                                    ->leftjoin('users','contacts.user_id','users.id')
                                     ->get();
         return view('users.index',compact('users'));
     } 
@@ -83,9 +85,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = DB::table('users')->select('users.id','users.name','users.email','contacts.cidade','contacts.uf','rua')
-                                    ->where('users.id',$id)
-                                    ->leftjoin('contacts','users.contact_id','contacts.id')   
+        $user = DB::table('contacts')->select('contacts.user_id','users.id','users.name','users.email','contacts.cidade','contacts.uf','rua')
+                                    ->where('contacts.user_id',$id)
+                                    ->leftjoin('users','contacts.user_id','users.id')   
                                     ->get()                               
                                     ->first();
                                   
@@ -101,7 +103,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {        
         $update = $this->user->updateUser($request,$id);
 
         \Session::flash('mensagem_sucesso','Usuário atualizado com sucesso!');    
@@ -123,14 +125,14 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = $this->user->findOrFail($id);
+        $contact = $this->contact->findOrFail($id);
 
-        $user->delete();
+        $contact->delete();
 
         \Session::flash('mensagem_sucesso','Usuário deletado com sucesso!');    
 
          # VERIFICA SE REALMENTE DELETOU       
-        if($user->delete())
+        if($contact->delete())
             return redirect()
                     ->route('users.index');
         else

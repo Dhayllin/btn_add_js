@@ -31,40 +31,41 @@ class User extends Authenticatable
 
     public function addUser($request){
 
-        $contact = new Contact();
-                           
-        $contact['cidade'] = $request['cidade'];
-        $contact['rua'] = $request['rua'];
-        $contact['uf'] = $request['uf'];
-        $contact->save();
-
         $dataForm = new User();
 
         $dataForm['name'] = $request['name'];
         $dataForm['email'] = $request['email'];
-        $dataForm['contact_id'] = $contact['id'];
         $dataForm['password']= bcrypt($request['password']);
         $dataForm->save();
+
+        $contact = new Contact();
+                           
+        $contact['cidade']  = $request['cidade'];
+        $contact['rua']     = $request['rua'];
+        $contact['uf']      = $request['uf'];
+        $contact['user_id'] = $dataForm['id'];
+
+        $contact->save();
 
         return $dataForm;
     }
 
     public function updateUser($request, $id){
 
+        $dataForm = User::findOrFail($id);
+
+        $dataForm['name'] = $request['name'];
+        $dataForm['email'] = $request['email'];
+        $dataForm['password']= bcrypt($request['password']);
+        $dataForm->update();
+
         $contact = Contact::findOrFail($id);
                            
         $contact['cidade'] = $request['cidade'];
         $contact['rua'] = $request['rua'];
         $contact['uf'] = $request['uf'];
+        $contact['user_id'] = $dataForm['id'];
         $contact->update();
-
-        $dataForm = User::findOrFail($id);
-
-        $dataForm['name'] = $request['name'];
-        $dataForm['email'] = $request['email'];
-        $dataForm['contact_id'] = $contact['id'];
-        $dataForm['password']= bcrypt($request['password']);
-        $dataForm->update();
 
         return $dataForm;
     }

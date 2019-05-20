@@ -36,7 +36,7 @@
                                             <td>{!! $user->cidade !!}</td>        
                                             <td>{!! $user->uf !!}</td>                                            
                                             <td>  
-                                            <a  href="{{route('user.edit', $user->id)}}"rel="tooltip"  type="button" class="btn btn-primary" data-original-title="Editar">
+                                            <a  href="{{route('user.edit', $user->user_id)}}"rel="tooltip"  type="button" class="btn btn-primary" data-original-title="Editar">
                                                 <i class="fa fa-edit">
                                                 </i>
                                                 Editar
