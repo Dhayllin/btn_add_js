@@ -100,39 +100,28 @@
                         </div> <!-- tabpanel  home 1-->
                         
                         <div class="tab-pane fade" id="home2" role="tabpanel" aria-labelledby="home2">
-        
                                 <h4 class="card-title m-b-40">
                                     <strong>Contato</strong>
+                                    <button class="btn btn-success float-right" type="button" id="plus" >
+                                        <i class="fa fa-plus"></i> Add
+                                    </button>
                                 </h4>
-        
-                                <br>
-        
-                                 <div class="row">
-
+                                <br />
+                                <div class="row">
                                     <div class="form-group col-md-4">
                                         <label for="cidade">Cidade</label>
                                         <input type="text" class="form-control @error('cidade') is-invalid @enderror" id="cidade" name="cidade" value="{{ $user->cidade ?? old('cidade') }}">
-                                    </div>
-        
+                                    </div>        
                                     <div class="form-group col-md-5">
                                         <label for="rua">Rua</label>
                                         <input type="text" class="form-control @error('rua') is-invalid @enderror" id="rua" name="rua" value="{{ $user->rua ?? old('rua') }}">
-                                    </div>
-        
-                                    <div class="form-group col-md-2">
+                                    </div>        
+                                    <div class="form-group col-md-3">
                                         <label for="uf">UF</label>
                                         <input type="text" class="form-control @error('uf') is-invalid @enderror" id="uf" name="uf" value="{{ $user->uf ?? old('uf') }}">
-                                    </div>
-
-                                    <div class="form-group col-md-1">
-                                        <button class="btn btn-success" type="button" style="margin-top: 30px;">
-                                            <i class="fa fa-plus"></i>
-                                            Add
-                                        </button>
-                                    </div>
-                                    
+                                    </div>                                   
                                 </div> <!-- row -->
-        
+                                <div id="novo-registro"></div>
                                 <div class="form-group row mb-0">
                                     <div class="col-md-6 offset-md-4">
                                         <button type="submit" class="btn btn-primary">
